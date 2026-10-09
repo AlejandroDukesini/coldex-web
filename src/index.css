@@ -1,0 +1,262 @@
+@import 'tailwindcss';
+@import '@fontsource-variable/geist/wght.css';
+@import '@fontsource-variable/geist-mono/wght.css';
+
+/* ── Design tokens ─────────────────────────────────────────────────────────
+   Paleta derivada de la identidad del perfil de GitHub (#00F5D4 / #7C3AED),
+   rebajada para que el acento se use con moderación sobre un fondo neutro. */
+@theme {
+  --color-bg: #0a0c0f;
+  --color-surface: #101318;
+  --color-surface-2: #151a20;
+  --color-line: rgb(255 255 255 / 0.08);
+  --color-line-strong: rgb(255 255 255 / 0.14);
+  --color-fg: #eef1f4;
+  --color-muted: #9ba5b0;
+  --color-subtle: #7f8a96;
+  --color-accent: #00f5d4;
+  --color-accent-soft: rgb(0 245 212 / 0.12);
+  --color-accent-ink: #032b25;
+  --color-violet: #7c3aed;
+  --color-danger: #ff8a8a;
+
+  --font-sans: 'Geist Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'Geist Mono Variable', ui-monospace, 'Cascadia Code', Menlo, Consolas, monospace;
+
+  --radius-card: 1.25rem;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+
+  --animate-rise: rise 0.9s var(--ease-out-expo) both;
+  --animate-line-up: line-up 1s var(--ease-out-expo) both;
+  --animate-pulse-dot: pulse-dot 2.4s ease-out infinite;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 18px, 0);
+  }
+}
+
+@keyframes line-up {
+  from {
+    transform: translate3d(0, 105%, 0);
+  }
+}
+
+@keyframes pulse-dot {
+  0% {
+    box-shadow: 0 0 0 0 rgb(0 245 212 / 0.45);
+  }
+  70%,
+  100% {
+    box-shadow: 0 0 0 8px rgb(0 245 212 / 0);
+  }
+}
+
+@keyframes tab-progress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes reveal-fallback {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ── Base ─────────────────────────────────────────────────────────────── */
+@layer base {
+  html {
+    color-scheme: dark;
+    scroll-padding-top: 5.5rem;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background: var(--color-bg);
+    color: var(--color-fg);
+    font-family: var(--font-sans);
+    font-feature-settings: 'ss01', 'cv11';
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: clip;
+  }
+
+  ::selection {
+    background: rgb(0 245 212 / 0.25);
+    color: #fff;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+    letter-spacing: -0.025em;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* ── Componentes de estilo compartidos ───────────────────────────────── */
+@utility container-page {
+  width: 100%;
+  max-width: 76rem;
+  margin-inline: auto;
+  padding-inline: 1rem;
+
+  @media (width >= 40rem) {
+    padding-inline: 1.5rem;
+  }
+  @media (width >= 64rem) {
+    padding-inline: 2rem;
+  }
+}
+
+@utility eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+@utility card {
+  position: relative;
+  border-radius: var(--radius-card);
+  border: 1px solid var(--color-line);
+  background: linear-gradient(180deg, rgb(255 255 255 / 0.025), rgb(255 255 255 / 0) 60%), var(--color-surface);
+}
+
+/* Luz que sigue al puntero dentro de una tarjeta: solo pinta un gradiente
+   en ::before usando variables CSS, sin tocar el layout. */
+@utility spotlight {
+  isolation: isolate;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    background: radial-gradient(
+      420px circle at var(--mx, 50%) var(--my, -20%),
+      rgb(0 245 212 / 0.075),
+      transparent 60%
+    );
+    opacity: 0;
+    transition: opacity 0.4s var(--ease-out-quart);
+    pointer-events: none;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    &:hover::before {
+      opacity: 1;
+    }
+  }
+}
+
+/* Fondo del hero: rejilla técnica que se desvanece hacia los bordes. */
+@utility grid-backdrop {
+  background-image:
+    linear-gradient(to right, rgb(255 255 255 / 0.045) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(255 255 255 / 0.045) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 35%, #000 30%, transparent 75%);
+}
+
+/* Grano sutil en toda la página (estático: no se anima). */
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ── Animaciones de entrada ──────────────────────────────────────────────
+   El contenido solo se oculta si hay JS (clase .js en <html>) y el usuario
+   no pidió reducir el movimiento. Si el JS falla, aparece a los 2.5 s. */
+@media (prefers-reduced-motion: no-preference) {
+  .js [data-reveal]:not(.is-visible) {
+    opacity: 0;
+    transform: translate3d(0, 20px, 0);
+    animation: reveal-fallback 0s 2.5s forwards;
+  }
+
+  .js [data-reveal] {
+    transition:
+      opacity 0.8s var(--ease-out-expo),
+      transform 0.8s var(--ease-out-expo);
+    transition-delay: var(--delay, 0ms);
+  }
+
+  .js [data-reveal='clip']:not(.is-visible) {
+    opacity: 1;
+    transform: none;
+    clip-path: inset(0 0 100% 0 round var(--radius-card));
+  }
+
+  .js [data-reveal='clip'] {
+    clip-path: inset(0 0 0 0 round var(--radius-card));
+    transition: clip-path 1.1s var(--ease-out-expo);
+  }
+}
+
+/* Barra de progreso de las pestañas de la consola del hero. */
+.tab-progress {
+  transform-origin: left;
+  animation: tab-progress var(--duration, 5s) linear forwards;
+}
+
+.tab-progress[data-paused='true'] {
+  animation-play-state: paused;
+}
+
+/* ── Modo ligero: dispositivos modestos o con ahorro de datos ───────── */
+.lite .grain,
+.lite .hero-glow {
+  display: none;
+}
+
+.lite .backdrop-blur-md {
+  backdrop-filter: none;
+}
+
+/* ── Movimiento reducido ─────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .tab-progress {
+    display: none;
+  }
+}

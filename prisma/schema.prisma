@@ -1,0 +1,31 @@
+// Esquema de datos del sitio. Solo guarda las solicitudes enviadas desde el
+// formulario de contacto; el resto del contenido vive en src/data/.
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../server/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+enum LeadStatus {
+  NEW
+  CONTACTED
+  ARCHIVED
+}
+
+model Lead {
+  id          String     @id @default(cuid())
+  name        String
+  email       String
+  projectType String
+  budget      String?
+  message     String
+  status      LeadStatus @default(NEW)
+  createdAt   DateTime   @default(now())
+
+  @@index([createdAt])
+  @@index([status])
+}

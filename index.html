@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <script>
+      // Antes del primer pintado: habilita las animaciones de entrada (.js) y
+      // activa el modo ligero (.lite) en equipos modestos o con ahorro de datos.
+      ;(function () {
+        var root = document.documentElement
+        var nav = navigator
+        var conn = nav.connection
+        root.classList.add('js')
+        if (
+          (nav.hardwareConcurrency && nav.hardwareConcurrency <= 4) ||
+          (nav.deviceMemory && nav.deviceMemory <= 4) ||
+          (conn && conn.saveData)
+        ) {
+          root.classList.add('lite')
+        }
+      })()
+    </script>
+
+    <title>Alejandro Duke · Desarrollador Full Stack | Coldex</title>
+    <meta
+      name="description"
+      content="Landing pages, tiendas en línea y sistemas a medida rápidos, seguros y fáciles de mantener. Desarrollador full stack en Colombia con métricas reales en cada proyecto."
+    />
+    <meta name="author" content="Alejandro Rodríguez Duque" />
+    <meta name="theme-color" content="#0a0c0f" />
+    <meta name="color-scheme" content="dark" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <!--seo:canonical-->
+
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_CO" />
+    <meta property="og:site_name" content="Coldex" />
+    <meta property="og:title" content="Alejandro Duke · Software que se mide, no que se promete" />
+    <meta
+      property="og:description"
+      content="Landing pages, e-commerce y sistemas a medida con métricas reales de rendimiento, pruebas y seguridad."
+    />
+    <meta property="og:image" content="%SITE_URL%/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Coldex — Alejandro Duke, desarrollador full stack" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Person",
+            "@id": "#alejandro",
+            "name": "Alejandro Rodríguez Duque",
+            "alternateName": "Alejandro Duke",
+            "jobTitle": "Desarrollador Full Stack",
+            "email": "mailto:alejandrinoduke@gmail.com",
+            "address": { "@type": "PostalAddress", "addressCountry": "CO" },
+            "alumniOf": { "@type": "CollegeOrUniversity", "name": "Universidad del Quindío" },
+            "knowsAbout": ["React", "JavaScript", "TypeScript", "Kotlin", "Spring Boot", "Python", "FastAPI", "PostgreSQL", "Web performance"],
+            "sameAs": ["https://github.com/AlejandroDukesini", "https://www.linkedin.com/in/coldex-co/"]
+          },
+          {
+            "@type": "ProfessionalService",
+            "name": "Coldex",
+            "description": "Desarrollo de landing pages, tiendas en línea y sistemas web a medida.",
+            "founder": { "@id": "#alejandro" },
+            "areaServed": "CO",
+            "email": "alejandrinoduke@gmail.com"
+          }
+        ]
+      }
+    </script>
+  </head>
+  <body>
+    <div id="root"><!--app-html--></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
