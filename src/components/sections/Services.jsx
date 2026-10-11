@@ -13,7 +13,7 @@ export function Services() {
       <div className="container-page">
         <SectionHeading
           id="services-title"
-          index="02"
+          index="03"
           eyebrow="Qué puedo hacer por ti"
           title={
             <>

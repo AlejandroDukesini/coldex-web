@@ -7,6 +7,7 @@ import { ArrowIcon, Button } from './Button'
 
 // Debe coincidir con los valores permitidos en server/index.js.
 const PROJECT_TYPES = [
+  { value: 'regalo', label: 'Página de regalo (sin fines comerciales)' },
   { value: 'landing', label: 'Landing page' },
   { value: 'web', label: 'Sitio web profesional' },
   { value: 'ecommerce', label: 'Tienda en línea' },

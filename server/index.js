@@ -10,7 +10,7 @@ const PORT = Number(process.env.PORT ?? 3001)
 const HOST = process.env.HOST ?? '127.0.0.1'
 const DIST_DIR = fileURLToPath(new URL('../dist', import.meta.url))
 
-const PROJECT_TYPES = ['landing', 'web', 'app', 'ecommerce', 'otro']
+const PROJECT_TYPES = ['regalo', 'landing', 'web', 'app', 'ecommerce', 'otro']
 const BUDGETS = ['por-definir', 'basico', 'medio', 'alto']
 
 // Detrás de un proxy (Nginx, Render, Railway…) pon TRUST_PROXY=true para que

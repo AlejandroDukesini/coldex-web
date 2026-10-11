@@ -9,6 +9,23 @@ export const PRICING_CURRENCY = 'COP'
 
 export const PRICING_PLANS = [
   {
+    id: 'regalo',
+    name: 'Regalo',
+    price: '30.000',
+    prefix: 'Desde',
+    description: 'Una página única para sorprender a alguien especial: cumpleaños, aniversario o una dedicatoria.',
+    features: [
+      '(SIN FINES COMERCIALES)',
+      'Diseño personalizado de una sola página',
+      'Tus fotos, mensaje y detalles especiales',
+      'Enlace listo para compartir desde el celular',
+      'Entrega rápida',
+    ],
+    cta: 'Quiero un regalo',
+    projectType: 'regalo',
+    highlighted: false,
+  },
+  {
     id: 'landing',
     name: 'Landing page',
     price: '100.000',

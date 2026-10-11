@@ -10,7 +10,7 @@ import { Services } from './components/sections/Services'
 import { Divider } from './components/ui/SectionHeading'
 import { useReveal } from './hooks/useReveal'
 
-// Narrativa: impacto → confianza → capacidades → evidencia → proceso → precio → acción.
+// Narrativa: impacto → precio → confianza → capacidades → evidencia → proceso → acción.
 export default function App() {
   useReveal()
 
@@ -21,6 +21,8 @@ export default function App() {
       <Navbar />
       <main id="contenido" tabIndex={-1} className="overflow-x-clip focus:outline-none">
         <Hero />
+        <Pricing />
+        <Divider delay={1.8} />
         <About />
         <Divider />
         <Services />
@@ -29,8 +31,6 @@ export default function App() {
         <Divider delay={1} />
         <Process />
         <Divider delay={3.5} />
-        <Pricing />
-        <Divider delay={1.8} />
         <Contact />
       </main>
       <Footer />

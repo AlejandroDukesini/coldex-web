@@ -27,7 +27,7 @@ export function Process() {
       <div className="container-page grid gap-14 lg:grid-cols-[0.85fr_1.15fr] lg:gap-20">
         <div data-reveal className="lg:sticky lg:top-32 lg:self-start">
           <p className="eyebrow inline-flex items-center gap-3">
-            <span className="text-subtle">(04)</span>
+            <span className="text-subtle">(05)</span>
             <span aria-hidden="true" className="h-px w-8 bg-gradient-to-r from-accent to-violet" />
             Cómo trabajo
           </p>

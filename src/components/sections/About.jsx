@@ -64,7 +64,7 @@ export function About() {
         <div className="grid gap-8 lg:grid-cols-12">
           <div data-reveal className="lg:col-span-3">
             <p className="eyebrow inline-flex items-center gap-3">
-              <span className="text-subtle">(01)</span>
+              <span className="text-subtle">(02)</span>
               <span aria-hidden="true" className="h-px w-8 bg-gradient-to-r from-accent to-violet" />
               Qué es {SITE.brand}
             </p>

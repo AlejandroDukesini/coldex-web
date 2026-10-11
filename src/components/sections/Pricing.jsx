@@ -13,13 +13,13 @@ export function Pricing() {
         <SectionHeading
           id="pricing-title"
           align="center"
-          index="05"
+          index="01"
           eyebrow="Inversión"
           title="Precios claros desde el principio."
-          description="Tres puntos de partida para que sepas qué esperar. El precio final depende del alcance y siempre lo acordamos antes de empezar."
+          description="Cuatro puntos de partida para que sepas qué esperar. El precio final depende del alcance y siempre lo acordamos antes de empezar."
         />
 
-        <ul className="mx-auto mt-14 grid max-w-md gap-5 lg:max-w-none lg:grid-cols-3">
+        <ul className="mx-auto mt-14 grid max-w-md gap-5 md:max-w-3xl md:grid-cols-2 xl:max-w-none xl:grid-cols-4">
           {PRICING_PLANS.map((plan, index) => (
             <li
               key={plan.id}
@@ -28,7 +28,7 @@ export function Pricing() {
               style={{ '--delay': `${index * 80}ms` }}
               className={`card spotlight flex flex-col p-7 sm:p-8 ${
                 plan.highlighted
-                  ? 'border-accent/35 bg-[linear-gradient(180deg,rgb(76_116_255/0.08),transparent_45%),var(--color-surface)] shadow-[0_0_0_1px_rgb(94_242_255/0.12),0_30px_70px_-30px_rgb(76_116_255/0.55)] lg:-translate-y-3'
+                  ? 'border-accent/35 bg-[linear-gradient(180deg,rgb(76_116_255/0.08),transparent_45%),var(--color-surface)] shadow-[0_0_0_1px_rgb(94_242_255/0.12),0_30px_70px_-30px_rgb(76_116_255/0.55)] xl:-translate-y-3'
                   : ''
               }`}
             >

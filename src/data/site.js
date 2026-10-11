@@ -35,11 +35,11 @@ export const SOCIAL_LINKS = [
 ]
 
 export const NAV_LINKS = [
+  { id: 'precios', label: 'Precios' },
   { id: 'sobre-coldex', label: 'Coldex' },
   { id: 'servicios', label: 'Servicios' },
   { id: 'proyectos', label: 'Proyectos' },
   { id: 'proceso', label: 'Proceso' },
-  { id: 'precios', label: 'Precios' },
 ]
 
 // Tecnologías con evidencia en al menos un repositorio público.
