@@ -7,9 +7,9 @@ import { isLiteMode } from '../../lib/device'
 const ROTATE_MS = 5000
 const PIPELINE = ['build', 'measure', 'iterate']
 
-// Consola con métricas verificables de los repositorios. Rota sola hasta que
+// Consola con métricas verificables de los repositorios (sección «Sobre Coldex»). Rota sola hasta que
 // el usuario elige una pestaña; la rotación la marca la propia barra CSS.
-export function HeroConsole() {
+export function MetricsConsole() {
   const [index, setIndex] = useState(0)
   const [hovered, setHovered] = useState(false)
   const [manual, setManual] = useState(false)
@@ -41,7 +41,7 @@ export function HeroConsole() {
     <div className="[perspective:1200px]">
       <div
         ref={tiltRef}
-        className="card overflow-hidden shadow-[0_40px_80px_-40px_rgb(0_0_0/0.8)] transition-transform duration-700 ease-(--ease-out-expo) will-change-transform"
+        className="card overflow-hidden shadow-[0_40px_80px_-40px_rgb(0_0_0/0.85),0_30px_90px_-60px_rgb(76_116_255/0.6)] transition-transform duration-700 ease-(--ease-out-expo) will-change-transform"
         onPointerEnter={() => setHovered(true)}
         onPointerLeave={() => setHovered(false)}
         onFocus={() => setHovered(true)}

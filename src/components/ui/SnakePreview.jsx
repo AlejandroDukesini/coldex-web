@@ -1,3 +1,5 @@
+import { useId } from 'react'
+
 // Ilustración vectorial del proyecto Snake IA: tablero con la serpiente y la
 // red recurrente 26 → 20 → 3 (se dibuja una muestra de neuronas por capa).
 
@@ -12,25 +14,27 @@ const nodesFor = ({ x, count }) =>
 
 const SNAKE = 'M60 210 H120 V150 H180 V90 H220 V60'
 
-export function SnakePreview() {
+export function SnakePreview({ className = 'h-full w-full' }) {
   const layers = LAYERS.map(nodesFor)
+  const gridId = `snake-grid-${useId().replace(/:/g, '')}`
 
   return (
     <svg
       viewBox="0 0 520 325"
       role="img"
       aria-label="Ilustración: tablero de Snake junto a una red neuronal de 26 entradas, 20 neuronas ocultas y 3 salidas"
-      className="h-full w-full bg-[#0c0f13]"
+      preserveAspectRatio="xMidYMid slice"
+      className={`bg-[radial-gradient(80%_80%_at_70%_30%,#121836,#06070d)] ${className}`}
     >
       <defs>
-        <pattern id="snake-grid" width="20" height="20" patternUnits="userSpaceOnUse">
+        <pattern id={gridId} width="20" height="20" patternUnits="userSpaceOnUse">
           <path d="M20 0H0V20" fill="none" stroke="rgb(255 255 255 / 0.05)" />
         </pattern>
       </defs>
-      <rect x="30" y="40" width="220" height="240" rx="10" fill="url(#snake-grid)" stroke="rgb(255 255 255 / 0.1)" />
-      <path d={SNAKE} fill="none" stroke="#00F5D4" strokeWidth="14" strokeLinecap="round" strokeLinejoin="round" opacity="0.9" />
-      <circle cx="220" cy="60" r="4" fill="#0c0f13" />
-      <rect x="194" y="194" width="12" height="12" rx="3" fill="#7C3AED" />
+      <rect x="30" y="40" width="220" height="240" rx="10" fill={`url(#${gridId})`} stroke="rgb(255 255 255 / 0.1)" />
+      <path d={SNAKE} fill="none" stroke="#5ef2ff" strokeWidth="14" strokeLinecap="round" strokeLinejoin="round" opacity="0.9" />
+      <circle cx="220" cy="60" r="4" fill="#06070d" />
+      <rect x="194" y="194" width="12" height="12" rx="3" fill="#a07bff" />
 
       {layers.slice(0, -1).map((layer, l) =>
         layer.map((from) =>
@@ -41,7 +45,7 @@ export function SnakePreview() {
               y1={from.y}
               x2={to.x}
               y2={to.y}
-              stroke="rgb(0 245 212 / 0.14)"
+              stroke="rgb(94 242 255 / 0.16)"
             />
           )),
         ),
@@ -53,8 +57,8 @@ export function SnakePreview() {
             cx={node.x}
             cy={node.y}
             r="7"
-            fill="#101318"
-            stroke={l === 2 ? '#00F5D4' : 'rgb(255 255 255 / 0.35)'}
+            fill="#0a0c14"
+            stroke={l === 2 ? '#5ef2ff' : 'rgb(255 255 255 / 0.35)'}
             strokeWidth="1.5"
           />
         )),

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { Menu, X } from 'lucide-react'
 import { NAV_LINKS, SITE } from '../../data/site'
 import { useActiveSection } from '../../hooks/useActiveSection'
@@ -67,9 +67,15 @@ export function Navbar() {
   return (
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-[background-color,border-color] duration-500 ${
-        scrolled || open ? 'border-b border-line bg-bg/80 backdrop-blur-md' : 'border-b border-transparent'
+        scrolled || open ? 'border-b border-line bg-bg/75 backdrop-blur-md' : 'border-b border-transparent'
       }`}
     >
+      <span
+        aria-hidden="true"
+        className={`scroll-progress absolute inset-x-0 -bottom-px h-px origin-left bg-gradient-to-r from-cyan via-blue to-violet transition-opacity duration-500 ${
+          scrolled ? 'opacity-100' : 'opacity-0'
+        }`}
+      />
       <a
         href="#contenido"
         className="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-50 focus:rounded-full focus:bg-accent focus:px-4 focus:py-2 focus:text-accent-ink"
@@ -86,30 +92,7 @@ export function Navbar() {
           </span>
         </a>
 
-        <ul className="hidden items-center gap-1 lg:flex">
-          {NAV_LINKS.map((link) => {
-            const isActive = active === link.id
-            return (
-              <li key={link.id}>
-                <a
-                  href={`#${link.id}`}
-                  aria-current={isActive ? 'true' : undefined}
-                  className={`relative inline-flex min-h-11 items-center rounded-full px-4 text-sm transition-colors duration-300 ${
-                    isActive ? 'text-fg' : 'text-muted hover:text-fg'
-                  }`}
-                >
-                  {link.label}
-                  <span
-                    aria-hidden="true"
-                    className={`absolute inset-x-4 bottom-2 h-px origin-left bg-accent transition-transform duration-500 ease-(--ease-out-expo) ${
-                      isActive ? 'scale-x-100' : 'scale-x-0'
-                    }`}
-                  />
-                </a>
-              </li>
-            )
-          })}
-        </ul>
+        <NavLinks active={active} />
 
         <div className="hidden lg:block">
           <Button href="#contacto" className="min-h-10! px-5! text-sm!">
@@ -167,5 +150,68 @@ export function Navbar() {
         </div>
       </div>
     </header>
+  )
+}
+
+// useLayoutEffect solo en el navegador (en el prerender no hay layout que medir).
+const useIsoLayoutEffect = typeof window === 'undefined' ? useEffect : useLayoutEffect
+
+// Enlaces de escritorio con un único indicador que se desliza hasta la sección
+// activa o hasta el enlace bajo el cursor. Solo anima transform y width.
+function NavLinks({ active }) {
+  const [hovered, setHovered] = useState(null)
+  const listRef = useRef(null)
+  const pillRef = useRef(null)
+  const target = hovered ?? active
+
+  useIsoLayoutEffect(() => {
+    const list = listRef.current
+    const pill = pillRef.current
+    if (!list || !pill) return
+    const place = () => {
+      const link = target && list.querySelector(`[data-id="${target}"]`)
+      if (!link) {
+        pill.style.opacity = '0'
+        return
+      }
+      pill.style.opacity = '1'
+      pill.style.width = `${link.offsetWidth}px`
+      pill.style.transform = `translate3d(${link.offsetLeft}px, 0, 0)`
+    }
+    place()
+    window.addEventListener('resize', place)
+    return () => window.removeEventListener('resize', place)
+  }, [target])
+
+  return (
+    <ul ref={listRef} className="relative hidden items-center gap-1 lg:flex" onPointerLeave={() => setHovered(null)}>
+      <span
+        ref={pillRef}
+        aria-hidden="true"
+        className="pointer-events-none absolute top-0 left-0 h-full rounded-full border border-line-strong bg-white/[0.04] opacity-0 transition-[transform,width,opacity] duration-500 ease-(--ease-out-expo)"
+      >
+        <span className="absolute inset-x-4 -bottom-px h-px bg-gradient-to-r from-transparent via-accent to-transparent" />
+      </span>
+      {NAV_LINKS.map((link) => {
+        const isActive = active === link.id
+        return (
+          <li key={link.id}>
+            <a
+              href={`#${link.id}`}
+              data-id={link.id}
+              aria-current={isActive ? 'true' : undefined}
+              onPointerEnter={() => setHovered(link.id)}
+              onFocus={() => setHovered(link.id)}
+              onBlur={() => setHovered(null)}
+              className={`relative inline-flex min-h-11 items-center rounded-full px-4 text-sm transition-colors duration-300 ${
+                isActive ? 'text-fg' : 'text-muted hover:text-fg'
+              }`}
+            >
+              {link.label}
+            </a>
+          </li>
+        )
+      })}
+    </ul>
   )
 }

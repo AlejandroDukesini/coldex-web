@@ -8,11 +8,12 @@ const PLACEHOLDER = 'XXX'
 
 export function Pricing() {
   return (
-    <section id="precios" aria-labelledby="pricing-title" className="border-t border-line py-24 sm:py-32">
+    <section id="precios" aria-labelledby="pricing-title" className="py-24 sm:py-32">
       <div className="container-page">
         <SectionHeading
           id="pricing-title"
           align="center"
+          index="05"
           eyebrow="Inversión"
           title="Precios claros desde el principio."
           description="Tres puntos de partida para que sepas qué esperar. El precio final depende del alcance y siempre lo acordamos antes de empezar."
@@ -27,7 +28,7 @@ export function Pricing() {
               style={{ '--delay': `${index * 80}ms` }}
               className={`card spotlight flex flex-col p-7 sm:p-8 ${
                 plan.highlighted
-                  ? 'border-accent/40 shadow-[0_0_0_1px_rgb(0_245_212/0.15),0_30px_60px_-30px_rgb(0_245_212/0.35)]'
+                  ? 'border-accent/35 bg-[linear-gradient(180deg,rgb(76_116_255/0.08),transparent_45%),var(--color-surface)] shadow-[0_0_0_1px_rgb(94_242_255/0.12),0_30px_70px_-30px_rgb(76_116_255/0.55)] lg:-translate-y-3'
                   : ''
               }`}
             >

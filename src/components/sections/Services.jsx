@@ -9,12 +9,17 @@ const PROJECT_TITLES = Object.fromEntries(FEATURED_PROJECTS.map((project) => [pr
 
 export function Services() {
   return (
-    <section id="servicios" aria-labelledby="services-title" className="border-t border-line py-24 sm:py-32">
+    <section id="servicios" aria-labelledby="services-title" className="py-24 sm:py-32">
       <div className="container-page">
         <SectionHeading
           id="services-title"
+          index="02"
           eyebrow="Qué puedo hacer por ti"
-          title="Desde la primera pantalla hasta la base de datos."
+          title={
+            <>
+              Desde la primera pantalla hasta la <span className="text-display text-chrome">base de datos.</span>
+            </>
+          }
           description="Cada servicio está respaldado por un proyecto publicado que puedes revisar. Nada de capacidades en el aire."
         />
 
@@ -29,9 +34,14 @@ export function Services() {
                 className="card spotlight group flex flex-col p-6 transition-colors duration-500 hover:border-line-strong sm:p-7"
                 style={{ '--delay': `${(index % 3) * 70}ms` }}
               >
-                <span className="grid size-11 place-items-center rounded-xl border border-line bg-accent-soft text-accent transition-transform duration-500 ease-(--ease-out-expo) group-hover:-translate-y-0.5">
-                  <Icon className="size-5" aria-hidden="true" />
-                </span>
+                <div className="flex items-start justify-between">
+                  <span className="grid size-11 place-items-center rounded-xl border border-line bg-gradient-to-br from-accent/15 to-violet/10 text-accent transition-transform duration-500 ease-(--ease-out-expo) group-hover:-translate-y-0.5 group-hover:rotate-[-4deg]">
+                    <Icon className="size-5" aria-hidden="true" />
+                  </span>
+                  <span className="font-mono text-[0.65rem] text-subtle transition-colors duration-500 group-hover:text-accent">
+                    {String(index + 1).padStart(2, '0')}
+                  </span>
+                </div>
                 <h3 className="mt-6 text-lg font-semibold">{service.title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-muted">{service.description}</p>
 

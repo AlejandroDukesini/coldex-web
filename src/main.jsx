@@ -11,5 +11,7 @@ const app = (
 )
 
 // En producción el HTML llega prerenderizado (scripts/prerender.mjs): se hidrata.
-if (container.hasChildNodes()) hydrateRoot(container, app)
+// En desarrollo #root solo contiene el comentario <!--app-html-->, que no cuenta:
+// por eso se comprueba si hay elementos y no simplemente nodos.
+if (container.firstElementChild) hydrateRoot(container, app)
 else createRoot(container).render(app)

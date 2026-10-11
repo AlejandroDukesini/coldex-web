@@ -16,12 +16,52 @@ export function LinkedInIcon({ className = 'size-5' }) {
   )
 }
 
+export function InstagramIcon({ className = 'size-5' }) {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth="2">
+      <rect x="3" y="3" width="18" height="18" rx="5" />
+      <circle cx="12" cy="12" r="4" />
+      <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
+    </svg>
+  )
+}
+
+export function TikTokIcon({ className = 'size-5' }) {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 24 24" className={className} fill="currentColor">
+      <path d="M16.6 2h-3.4v13.4a2.9 2.9 0 1 1-2.9-2.9c.3 0 .6 0 .9.1V9.1a6.4 6.4 0 1 0 5.4 6.3V8.6a8.1 8.1 0 0 0 4.4 1.3V6.5a4.4 4.4 0 0 1-4.4-4.5Z" />
+    </svg>
+  )
+}
+
+export function FacebookIcon({ className = 'size-5' }) {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 24 24" className={className} fill="currentColor">
+      <path d="M24 12.07C24 5.4 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.05V9.41c0-3.02 1.79-4.69 4.53-4.69 1.31 0 2.68.24 2.68.24v2.97h-1.51c-1.49 0-1.96.93-1.96 1.89v2.25h3.33l-.53 3.49h-2.8V24C19.61 23.1 24 18.1 24 12.07Z" />
+    </svg>
+  )
+}
+
+// Icono por id de red (SOCIAL_LINKS en data/site.js).
+export function SocialIcon({ id, className }) {
+  const Icon = { instagram: InstagramIcon, tiktok: TikTokIcon, facebook: FacebookIcon, linkedin: LinkedInIcon, github: GitHubIcon }[id]
+  return Icon ? <Icon className={className} /> : null
+}
+
 export function LogoMark({ className = 'size-8' }) {
+  // Id fijo: todas las instancias dibujan el mismo degradado.
   return (
     <svg aria-hidden="true" viewBox="0 0 32 32" className={className} fill="none">
-      <rect x="0.5" y="0.5" width="31" height="31" rx="9" fill="#101318" stroke="rgb(255 255 255 / 0.14)" />
-      <path d="M20.5 10.5a7 7 0 1 0 0 11" stroke="#00F5D4" strokeWidth="2.4" strokeLinecap="round" />
-      <circle cx="21.5" cy="16" r="1.8" fill="#00F5D4" />
+      <defs>
+        <linearGradient id="logo-spectrum" x1="8" y1="8" x2="24" y2="24" gradientUnits="userSpaceOnUse">
+          <stop stopColor="#5EF2FF" />
+          <stop offset="0.55" stopColor="#4C74FF" />
+          <stop offset="1" stopColor="#A07BFF" />
+        </linearGradient>
+      </defs>
+      <rect x="0.5" y="0.5" width="31" height="31" rx="9" fill="#0a0c14" stroke="rgb(190 205 255 / 0.16)" />
+      <path d="M20.5 10.5a7 7 0 1 0 0 11" stroke="url(#logo-spectrum)" strokeWidth="2.4" strokeLinecap="round" />
+      <circle cx="21.5" cy="16" r="1.8" fill="#5EF2FF" />
     </svg>
   )
 }

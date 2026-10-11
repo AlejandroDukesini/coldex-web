@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { ChevronDown, CircleAlert, CircleCheck, LoaderCircle } from 'lucide-react'
+import { ChevronDown, CircleCheck } from 'lucide-react'
 import { SITE } from '../../data/site'
 import { PREFILL_EVENT } from '../../lib/device'
 import { ArrowIcon, Button } from './Button'
@@ -22,12 +22,26 @@ const BUDGETS = [
 
 const API_URL = `${import.meta.env.VITE_API_URL ?? ''}/api/leads`
 
+const labelOf = (options, value) => options.find((option) => option.value === value)?.label ?? value
+
+function buildMailto({ name, email, projectType, budget, message }) {
+  const subject = `Proyecto: ${labelOf(PROJECT_TYPES, projectType)} — ${name}`
+  const body = [
+    `Nombre: ${name}`,
+    `Correo: ${email}`,
+    `¿Qué necesito?: ${labelOf(PROJECT_TYPES, projectType)}`,
+    `Presupuesto: ${labelOf(BUDGETS, budget ?? 'por-definir')}`,
+    '',
+    message,
+  ].join('\n')
+  return `mailto:${SITE.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
+}
+
 const FIELD =
   'w-full rounded-xl border border-line bg-white/[0.03] px-4 py-3 text-base text-fg placeholder:text-subtle transition-[border-color,background-color] duration-300 hover:border-line-strong focus:border-accent/70 focus:bg-white/[0.05] focus:outline-none'
 
 export function ContactForm() {
-  const [status, setStatus] = useState('idle') // idle | sending | success | error
-  const [error, setError] = useState('')
+  const [status, setStatus] = useState('idle') // idle | success
   const [projectType, setProjectType] = useState('landing')
   const successRef = useRef(null)
 
@@ -41,7 +55,10 @@ export function ContactForm() {
     if (status === 'success') successRef.current?.focus()
   }, [status])
 
-  const onSubmit = async (event) => {
+  // Abre la app de correo del visitante con el mensaje ya redactado para
+  // SITE.email. En producción también se registra el contacto en la API
+  // (sin bloquear ni mostrar errores si no está disponible).
+  const onSubmit = (event) => {
     event.preventDefault()
     const form = event.currentTarget
     if (!form.checkValidity()) {
@@ -49,37 +66,44 @@ export function ContactForm() {
       return
     }
 
-    setStatus('sending')
-    setError('')
     // Recorta espacios y omite campos opcionales vacíos (la API los rechaza).
     const data = Object.fromEntries(
       [...new FormData(form)].map(([key, value]) => [key, String(value).trim()]).filter(([key, value]) => value || key === 'website'),
     )
 
-    try {
-      const response = await fetch(API_URL, {
-        method: 'POST',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify(data),
-      })
-      const body = await response.json().catch(() => ({}))
-      if (!response.ok) throw new Error(body.error || 'No se pudo enviar el mensaje.')
-      form.reset()
-      setProjectType('landing')
-      setStatus('success')
-    } catch (err) {
-      setError(err instanceof TypeError ? 'No hay conexión con el servidor.' : err.message)
-      setStatus('error')
+    // Honeypot relleno: es un bot. Se finge el éxito sin abrir nada.
+    if (!data.website) {
+      window.location.href = buildMailto(data)
+      if (import.meta.env.PROD) {
+        fetch(API_URL, {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify(data),
+          keepalive: true,
+        }).catch(() => {})
+      }
     }
+
+    form.reset()
+    setProjectType('landing')
+    setStatus('success')
   }
 
   if (status === 'success') {
     return (
       <div ref={successRef} tabIndex={-1} className="card flex flex-col items-start p-8 focus:outline-none sm:p-10" role="status">
         <CircleCheck className="size-10 text-accent" aria-hidden="true" />
-        <h3 className="mt-5 text-2xl font-semibold">Mensaje recibido.</h3>
+        <h3 className="mt-5 text-2xl font-semibold">Tu mensaje está listo.</h3>
         <p className="mt-2 leading-relaxed text-muted">
-          Gracias por escribir. Leeré tu proyecto con calma y te responderé personalmente al correo que indicaste.
+          Se abrió tu aplicación de correo con todo lo que escribiste. Solo pulsa <span className="text-fg">Enviar</span>{' '}
+          y te responderé personalmente.
+        </p>
+        <p className="mt-4 text-sm leading-relaxed text-subtle">
+          ¿No se abrió? Escríbeme directamente a{' '}
+          <a href={`mailto:${SITE.email}`} className="text-fg underline decoration-line-strong underline-offset-4 hover:text-accent">
+            {SITE.email}
+          </a>
+          .
         </p>
         <button
           type="button"
@@ -91,8 +115,6 @@ export function ContactForm() {
       </div>
     )
   }
-
-  const sending = status === 'sending'
 
   return (
     <form onSubmit={onSubmit} noValidate className="card space-y-5 p-6 sm:p-8" aria-describedby="form-note">
@@ -164,35 +186,12 @@ export function ContactForm() {
         <input id="website" name="website" tabIndex={-1} autoComplete="off" />
       </div>
 
-      <div aria-live="polite">
-        {status === 'error' && (
-          <p className="flex gap-2.5 rounded-xl border border-danger/30 bg-danger/5 p-4 text-sm text-fg" role="alert">
-            <CircleAlert className="mt-0.5 size-4 shrink-0 text-danger" aria-hidden="true" />
-            <span>
-              {error} Puedes escribirme directamente a{' '}
-              <a href={`mailto:${SITE.email}`} className="underline underline-offset-4">
-                {SITE.email}
-              </a>
-              .
-            </span>
-          </p>
-        )}
-      </div>
-
       <div className="flex flex-col gap-4 pt-1 sm:flex-row sm:items-center sm:justify-between">
         <p id="form-note" className="text-xs leading-relaxed text-subtle sm:max-w-[16rem]">
-          Solo uso tus datos para responder a tu mensaje.
+          Se abrirá tu correo con el mensaje listo. Solo uso tus datos para responderte.
         </p>
-        <Button type="submit" disabled={sending} magnetic className="w-full sm:w-auto">
-          {sending ? (
-            <>
-              <LoaderCircle className="size-4 animate-spin" aria-hidden="true" /> Enviando…
-            </>
-          ) : (
-            <>
-              Hablemos de tu proyecto <ArrowIcon />
-            </>
-          )}
+        <Button type="submit" magnetic className="w-full sm:w-auto">
+          Enviar por correo <ArrowIcon />
         </Button>
       </div>
     </form>

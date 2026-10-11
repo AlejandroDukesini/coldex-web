@@ -12,13 +12,26 @@ export const SITE = {
   email: 'alejandrinoduke@gmail.com',
   github: 'https://github.com/AlejandroDukesini',
   linkedin: 'https://www.linkedin.com/in/coldex-co/',
+  instagram: 'https://www.instagram.com/coldex.co/',
+  tiktok: 'https://www.tiktok.com/@coldex.co',
+  facebook: 'https://www.facebook.com/marketplace/profile/100087299022084/',
   // Foto personal: coloca tu imagen en /public/me.webp (cuadrada, ≥ 640 px)
   // y cambia este valor a '/me.webp'. Mientras sea null se muestra un monograma.
   photo: null,
 }
 
+// Redes que aparecen en Contacto y en el pie (en este orden). `icon` es la
+// clave del icono en components/ui/BrandIcons.jsx.
+export const SOCIAL_LINKS = [
+  { id: 'instagram', label: 'Instagram', handle: '@coldex.co', href: SITE.instagram },
+  { id: 'tiktok', label: 'TikTok', handle: '@coldex.co', href: SITE.tiktok },
+  { id: 'facebook', label: 'Facebook', handle: 'Coldex', href: SITE.facebook },
+  { id: 'linkedin', label: 'LinkedIn', handle: 'coldex-co', href: SITE.linkedin },
+  { id: 'github', label: 'GitHub', handle: 'AlejandroDukesini', href: SITE.github },
+]
+
 export const NAV_LINKS = [
-  { id: 'sobre-mi', label: 'Sobre mí' },
+  { id: 'sobre-coldex', label: 'Coldex' },
   { id: 'servicios', label: 'Servicios' },
   { id: 'proyectos', label: 'Proyectos' },
   { id: 'proceso', label: 'Proceso' },

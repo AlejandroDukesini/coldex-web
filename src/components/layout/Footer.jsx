@@ -1,5 +1,5 @@
-import { NAV_LINKS, SITE } from '../../data/site'
-import { GitHubIcon, LinkedInIcon, LogoMark } from '../ui/BrandIcons'
+import { NAV_LINKS, SITE, SOCIAL_LINKS } from '../../data/site'
+import { LogoMark, SocialIcon } from '../ui/BrandIcons'
 
 // Se calcula una vez al cargar el módulo (no en cada render).
 const YEAR = new Date().getFullYear()
@@ -30,26 +30,21 @@ export function Footer() {
           </ul>
         </nav>
 
-        <div className="flex gap-2">
-          <a
-            href={SITE.github}
-            target="_blank"
-            rel="noreferrer"
-            aria-label="GitHub (se abre en una pestaña nueva)"
-            className="grid size-11 place-items-center rounded-full border border-line text-muted transition-colors hover:border-line-strong hover:text-fg"
-          >
-            <GitHubIcon className="size-4" />
-          </a>
-          <a
-            href={SITE.linkedin}
-            target="_blank"
-            rel="noreferrer"
-            aria-label="LinkedIn (se abre en una pestaña nueva)"
-            className="grid size-11 place-items-center rounded-full border border-line text-muted transition-colors hover:border-line-strong hover:text-fg"
-          >
-            <LinkedInIcon className="size-4" />
-          </a>
-        </div>
+        <ul className="flex flex-wrap gap-2" aria-label="Redes sociales">
+          {SOCIAL_LINKS.map((social) => (
+            <li key={social.id}>
+              <a
+                href={social.href}
+                target="_blank"
+                rel="noreferrer"
+                aria-label={`${social.label} (se abre en una pestaña nueva)`}
+                className="grid size-11 place-items-center rounded-full border border-line text-muted transition-colors hover:border-accent/50 hover:text-accent"
+              >
+                <SocialIcon id={social.id} className="size-4" />
+              </a>
+            </li>
+          ))}
+        </ul>
       </div>
 
       <div className="container-page mt-10 flex flex-col gap-2 border-t border-line pt-6 text-xs text-subtle sm:flex-row sm:justify-between">

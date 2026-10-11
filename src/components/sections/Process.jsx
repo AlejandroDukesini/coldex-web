@@ -23,12 +23,16 @@ export function Process() {
   const progress = PROCESS_STEPS.length > 1 ? active / (PROCESS_STEPS.length - 1) : 1
 
   return (
-    <section id="proceso" aria-labelledby="process-title" className="border-t border-line py-24 sm:py-32">
+    <section id="proceso" aria-labelledby="process-title" className="py-24 sm:py-32">
       <div className="container-page grid gap-14 lg:grid-cols-[0.85fr_1.15fr] lg:gap-20">
         <div data-reveal className="lg:sticky lg:top-32 lg:self-start">
-          <p className="eyebrow">Cómo trabajo</p>
-          <h2 id="process-title" className="mt-4 text-3xl leading-[1.1] font-semibold sm:text-4xl lg:text-[2.75rem]">
-            Un proceso claro para que siempre sepas en qué punto está tu proyecto.
+          <p className="eyebrow inline-flex items-center gap-3">
+            <span className="text-subtle">(04)</span>
+            <span aria-hidden="true" className="h-px w-8 bg-gradient-to-r from-accent to-violet" />
+            Cómo trabajo
+          </p>
+          <h2 id="process-title" className="mt-5 text-[2.1rem] leading-[1.04] font-semibold tracking-[-0.035em] sm:text-5xl">
+            Un proceso claro para que siempre sepas <span className="text-display text-chrome">en qué punto</span> está tu proyecto.
           </h2>
           <p className="mt-5 text-lg leading-relaxed text-muted">
             Sin cajas negras: cada fase termina con algo concreto que puedes revisar antes de pasar a la siguiente.
@@ -43,7 +47,7 @@ export function Process() {
         <div className="relative">
           <div aria-hidden="true" className="absolute top-2 bottom-2 left-[1.1875rem] w-px bg-line">
             <div
-              className="h-full origin-top bg-accent transition-transform duration-700 ease-(--ease-out-expo)"
+              className="h-full origin-top bg-gradient-to-b from-cyan via-blue to-violet shadow-[0_0_12px_rgb(94_242_255/0.5)] transition-transform duration-700 ease-(--ease-out-expo)"
               style={{ transform: `scaleY(${progress})` }}
             />
           </div>
@@ -60,14 +64,14 @@ export function Process() {
                 >
                   <span
                     className={`relative z-10 grid size-10 place-items-center rounded-full border font-mono text-xs transition-colors duration-500 ${
-                      reached ? 'border-accent/60 bg-[#0d1d1b] text-accent' : 'border-line bg-bg text-subtle'
+                      reached ? 'border-accent/60 bg-[#0b1626] text-accent shadow-[0_0_20px_-4px_rgb(94_242_255/0.5)]' : 'border-line bg-bg text-subtle'
                     }`}
                   >
                     {String(index + 1).padStart(2, '0')}
                   </span>
                   <div
                     data-reveal
-                    className={`pt-1.5 transition-opacity duration-500 ${index === active ? '' : 'lg:opacity-60'}`}
+                    className={`pt-1.5 transition-opacity duration-500 ${index === active ? '' : 'lg:opacity-75'}`}
                   >
                     <h3 className="text-xl font-semibold">{step.title}</h3>
                     <p className="mt-2 leading-relaxed text-muted">{step.description}</p>

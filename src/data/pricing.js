@@ -1,18 +1,17 @@
 // ─────────────────────────────────────────────────────────────────────────
 //  PRECIOS — EDITA AQUÍ
-//  1. Cambia PRICING_CURRENCY si cobras en otra moneda (p. ej. 'COP').
-//  2. Sustituye cada `price` ('XXX') por tu número, p. ej. 450 o '1.200'.
-//  Mientras un precio siga siendo 'XXX', en `npm run dev` aparece marcado
+//  Precios en pesos colombianos, con punto de miles (p. ej. '100.000').
+//  Si algún precio vuelve a ser 'XXX', en `npm run dev` aparece marcado
 //  como «editable» para que no se te escape ninguno.
 // ─────────────────────────────────────────────────────────────────────────
 
-export const PRICING_CURRENCY = 'USD'
+export const PRICING_CURRENCY = 'COP'
 
 export const PRICING_PLANS = [
   {
     id: 'landing',
     name: 'Landing page',
-    price: 'XXX',
+    price: '100.000',
     prefix: 'Desde',
     description: 'Una página enfocada en presentar tu oferta y convertir visitas en contactos.',
     features: [
@@ -29,7 +28,7 @@ export const PRICING_PLANS = [
   {
     id: 'web',
     name: 'Web profesional',
-    price: 'XXX',
+    price: '400.000',
     prefix: 'Desde',
     description: 'Un sitio completo o tienda en línea para un negocio que necesita crecer en digital.',
     features: [
@@ -46,7 +45,7 @@ export const PRICING_PLANS = [
   {
     id: 'custom',
     name: 'Proyecto a medida',
-    price: 'XXX',
+    price: '450.000',
     prefix: 'Desde',
     description: 'Sistemas, paneles internos o aplicaciones con lógica de negocio propia.',
     features: [

@@ -1,10 +1,22 @@
 // Casos de portfolio. Problema/solución/resultados están resumidos de los
 // README de cada repositorio; los resultados son solo cifras medidas allí.
-// Las imágenes se generan con `npm run optimize:images` desde assets-src/.
+// Las imágenes se generan con `npm run optimize:images` desde assets-src/
+// (conservan su proporción; `size` = ancho × alto real de la captura).
+//
+// `layout` controla solo la presentación de cada pieza en la galería:
+//   span   columnas que ocupa en escritorio (de 12): 4, 5, 6, 7 u 8
+//          (7 u 8 ocupan además todo el ancho en tableta)
+//   ratio  proporción del marco de la imagen (CSS aspect-ratio)
+//   focus  punto de la captura que se mantiene visible al recortar
+//   offset desplaza la pieza hacia abajo para romper la rejilla
+//   tint   color de la luz ambiental y del borde al pasar el cursor
+// El orden del array es el orden de la galería.
 
 export const FEATURED_PROJECTS = [
   {
     id: 'task-gestor',
+    layout: { span: 7, ratio: '1607 / 816', focus: '0% 0%', tint: '#a07bff' },
+    size: [1607, 816],
     title: 'Plan Gestor Task',
     kind: 'Producto local-first · Web, PWA y Windows',
     image: 'task-gestor',
@@ -24,27 +36,9 @@ export const FEATURED_PROJECTS = [
     repo: 'https://github.com/AlejandroDukesini/Personal_Task_Gestor',
   },
   {
-    id: 'maison-noir',
-    title: 'Maison Noir',
-    kind: 'Sistema full-stack para restaurantes',
-    image: 'maison-noir',
-    imageAlt: 'Panel de administración de Maison Noir con la gestión de mesas por zona, capacidad y posición',
-    summary:
-      'Operación de restaurante: meseros toman pedidos por mesa, cocina ve la cola con recetas y administración gestiona todo.',
-    problem:
-      'Piso, cocina y administración tienen que coordinarse sin que ningún rol vea o modifique lo que no le corresponde.',
-    solution:
-      'API REST en Kotlin y Spring Boot con JWT y control de acceso por rol, aislamiento de datos entre restaurantes y un SPA en React para cada equipo.',
-    results: [
-      '159 pruebas automatizadas (115 backend · 44 frontend) en CI',
-      'Endpoint más pesado: 157 → 3 consultas SQL (−98 %)',
-    ],
-    stack: ['Kotlin', 'Spring Boot', 'PostgreSQL', 'JWT · RBAC', 'React', 'GitHub Actions'],
-    demo: 'https://rest-aurantapp.netlify.app/',
-    repo: 'https://github.com/AlejandroDukesini/Restaurant_reservations',
-  },
-  {
     id: 'axis-2d',
+    layout: { span: 5, ratio: '4 / 3', focus: '50% 40%', offset: true, tint: '#5ef2ff' },
+    size: [1440, 900],
     title: 'AXIS 2D',
     kind: 'Landing animada para concesionario',
     image: 'axis-2d',
@@ -65,24 +59,9 @@ export const FEATURED_PROJECTS = [
     repo: 'https://github.com/AlejandroDukesini/AXIS-2D-SCROLL-ANIMATION',
   },
   {
-    id: 'casa-renault',
-    title: 'Casa Renault',
-    kind: 'Catálogo y vitrina comercial',
-    image: 'casa-renault',
-    imageAlt:
-      'Página de inicio de Casa Renault con el titular «Piezas originales al mejor precio» y un buscador de repuestos',
-    summary:
-      'Frontend del catálogo de un distribuidor de repuestos en Armenia, Quindío, con buscador por marca y categoría.',
-    problem: 'Un catálogo de repuestos multimarca tiene que ser fácil de buscar y cargar rápido en cualquier dispositivo.',
-    solution:
-      'SPA en React con rutas cargadas bajo demanda, buscador por marca y categoría, hero que respeta prefers-reduced-motion y contacto directo por WhatsApp.',
-    results: ['Accesibilidad Lighthouse en móvil: 84 → 96', 'Performance en escritorio: 37 → 70–75'],
-    stack: ['React', 'Vite', 'React Router', 'Tailwind CSS', 'Netlify'],
-    demo: 'https://casa-renault.netlify.app/',
-    repo: 'https://github.com/AlejandroDukesini/CASA-RENAULT',
-  },
-  {
     id: 'valinor',
+    layout: { span: 5, ratio: '4 / 3', focus: '50% 20%', tint: '#a07bff' },
+    size: [1440, 900],
     title: 'Ludoteca Valinor',
     kind: 'E-commerce de cartas TCG y juegos de mesa',
     image: 'valinor',
@@ -101,7 +80,50 @@ export const FEATURED_PROJECTS = [
     repo: 'https://github.com/AlejandroDukesini/LUDOTECA-VALINOR',
   },
   {
+    id: 'maison-noir',
+    layout: { span: 7, ratio: '1827 / 884', focus: '0% 0%', offset: true, tint: '#4c74ff' },
+    size: [1827, 884],
+    title: 'Maison Noir',
+    kind: 'Sistema full-stack para restaurantes',
+    image: 'maison-noir',
+    imageAlt: 'Panel de administración de Maison Noir con la gestión de mesas por zona, capacidad y posición',
+    summary:
+      'Operación de restaurante: meseros toman pedidos por mesa, cocina ve la cola con recetas y administración gestiona todo.',
+    problem:
+      'Piso, cocina y administración tienen que coordinarse sin que ningún rol vea o modifique lo que no le corresponde.',
+    solution:
+      'API REST en Kotlin y Spring Boot con JWT y control de acceso por rol, aislamiento de datos entre restaurantes y un SPA en React para cada equipo.',
+    results: [
+      '159 pruebas automatizadas (115 backend · 44 frontend) en CI',
+      'Endpoint más pesado: 157 → 3 consultas SQL (−98 %)',
+    ],
+    stack: ['Kotlin', 'Spring Boot', 'PostgreSQL', 'JWT · RBAC', 'React', 'GitHub Actions'],
+    demo: 'https://rest-aurantapp.netlify.app/',
+    repo: 'https://github.com/AlejandroDukesini/Restaurant_reservations',
+  },
+  {
+    id: 'casa-renault',
+    layout: { span: 6, ratio: '16 / 10', focus: '50% 0%', tint: '#4c74ff' },
+    size: [1440, 900],
+    title: 'Casa Renault',
+    kind: 'Catálogo y vitrina comercial',
+    image: 'casa-renault',
+    imageAlt:
+      'Página de inicio de Casa Renault con el titular «Piezas originales al mejor precio» y un buscador de repuestos',
+    summary:
+      'Frontend del catálogo de un distribuidor de repuestos en Armenia, Quindío, con buscador por marca y categoría.',
+    problem: 'Un catálogo de repuestos multimarca tiene que ser fácil de buscar y cargar rápido en cualquier dispositivo.',
+    solution:
+      'SPA en React con rutas cargadas bajo demanda, buscador por marca y categoría, hero que respeta prefers-reduced-motion y contacto directo por WhatsApp.',
+    results: ['Accesibilidad Lighthouse en móvil: 84 → 96', 'Performance en escritorio: 37 → 70–75'],
+    stack: ['React', 'Vite', 'React Router', 'Tailwind CSS', 'Netlify'],
+    demo: 'https://casa-renault.netlify.app/',
+    repo: 'https://github.com/AlejandroDukesini/CASA-RENAULT',
+  },
+  {
     id: 'ai-snake',
+    layout: { span: 6, ratio: '16 / 10', focus: '50% 50%', offset: true, tint: '#5ef2ff' },
+    size: null,
     title: 'Snake IA',
     kind: 'IA por neuroevolución en tiempo real',
     image: null, // Sin captura: se muestra una ilustración de la red neuronal.
