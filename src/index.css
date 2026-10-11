@@ -389,6 +389,37 @@
     linear-gradient(rgb(190 205 255 / 0.22), rgb(190 205 255 / 0.22)) border-box;
 }
 
+/* WhatsApp: el verde de la marca para que se reconozca de un vistazo. */
+.btn-whatsapp {
+  color: #04140b;
+  background: linear-gradient(110deg, #3ee07f, #25d366 55%, #1fb957);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.45),
+    0 0 0 1px rgb(37 211 102 / 0.45),
+    0 12px 32px -14px rgb(37 211 102 / 0.75);
+}
+
+.btn-whatsapp::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(140px circle at var(--mx) var(--my), rgb(255 255 255 / 0.6), transparent 70%);
+  opacity: 0;
+  transition: opacity 0.4s var(--ease-out-quart);
+}
+
+.btn-whatsapp:hover {
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.55),
+    0 0 0 1px rgb(37 211 102 / 0.7),
+    0 18px 44px -14px rgb(37 211 102 / 0.9);
+}
+
+.btn-whatsapp:hover::before {
+  opacity: 0.55;
+}
+
 /* ── HERO ────────────────────────────────────────────────────────────── */
 .hero {
   /* --px/--py: posición interpolada del cursor en [-1, 1]. --energy: 0 fuera, 1 dentro. */

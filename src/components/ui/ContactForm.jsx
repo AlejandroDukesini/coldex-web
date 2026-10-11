@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { ChevronDown, CircleCheck } from 'lucide-react'
 import { SITE } from '../../data/site'
 import { PREFILL_EVENT } from '../../lib/device'
+import { WhatsAppIcon } from './BrandIcons'
 import { ArrowIcon, Button } from './Button'
 
 // Debe coincidir con los valores permitidos en server/index.js.
@@ -24,18 +25,27 @@ const API_URL = `${import.meta.env.VITE_API_URL ?? ''}/api/leads`
 
 const labelOf = (options, value) => options.find((option) => option.value === value)?.label ?? value
 
-function buildMailto({ name, email, projectType, budget, message }) {
-  const subject = `Proyecto: ${labelOf(PROJECT_TYPES, projectType)} — ${name}`
-  const body = [
-    `Nombre: ${name}`,
-    `Correo: ${email}`,
+// Resumen legible del formulario: cuerpo del correo y texto que se copia
+// para pegarlo en WhatsApp. Omite los campos que aún estén vacíos.
+function buildSummary({ name, email, projectType, budget, message }) {
+  return [
+    name && `Nombre: ${name}`,
+    email && `Correo: ${email}`,
     `¿Qué necesito?: ${labelOf(PROJECT_TYPES, projectType)}`,
-    `Presupuesto: ${labelOf(BUDGETS, budget ?? 'por-definir')}`,
-    '',
-    message,
-  ].join('\n')
-  return `mailto:${SITE.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
+    `Presupuesto: ${labelOf(BUDGETS, budget || 'por-definir')}`,
+    message && `\n${message}`,
+  ]
+    .filter(Boolean)
+    .join('\n')
 }
+
+function buildMailto(data) {
+  const subject = `Proyecto: ${labelOf(PROJECT_TYPES, data.projectType)} — ${data.name}`
+  return `mailto:${SITE.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(buildSummary(data))}`
+}
+
+const readForm = (form) =>
+  Object.fromEntries([...new FormData(form)].map(([key, value]) => [key, String(value).trim()]))
 
 const FIELD =
   'w-full rounded-xl border border-line bg-white/[0.03] px-4 py-3 text-base text-fg placeholder:text-subtle transition-[border-color,background-color] duration-300 hover:border-line-strong focus:border-accent/70 focus:bg-white/[0.05] focus:outline-none'
@@ -43,7 +53,9 @@ const FIELD =
 export function ContactForm() {
   const [status, setStatus] = useState('idle') // idle | success
   const [projectType, setProjectType] = useState('landing')
+  const [waNote, setWaNote] = useState('')
   const successRef = useRef(null)
+  const formRef = useRef(null)
 
   useEffect(() => {
     const onPrefill = (event) => setProjectType(event.detail.projectType)
@@ -67,9 +79,7 @@ export function ContactForm() {
     }
 
     // Recorta espacios y omite campos opcionales vacíos (la API los rechaza).
-    const data = Object.fromEntries(
-      [...new FormData(form)].map(([key, value]) => [key, String(value).trim()]).filter(([key, value]) => value || key === 'website'),
-    )
+    const data = Object.fromEntries(Object.entries(readForm(form)).filter(([key, value]) => value || key === 'website'))
 
     // Honeypot relleno: es un bot. Se finge el éxito sin abrir nada.
     if (!data.website) {
@@ -86,7 +96,22 @@ export function ContactForm() {
 
     form.reset()
     setProjectType('landing')
+    setWaNote('')
     setStatus('success')
+  }
+
+  // WhatsApp no recibe texto con este tipo de enlace: si ya hay un mensaje
+  // escrito, se copia al portapapeles para pegarlo en el chat.
+  const onWhatsApp = () => {
+    const data = formRef.current ? readForm(formRef.current) : {}
+    if (!data.message) {
+      setWaNote('')
+      return
+    }
+    navigator.clipboard
+      ?.writeText(buildSummary(data))
+      .then(() => setWaNote('Copiamos tu mensaje: pégalo en el chat de WhatsApp.'))
+      .catch(() => setWaNote(''))
   }
 
   if (status === 'success') {
@@ -99,7 +124,12 @@ export function ContactForm() {
           y te responderé personalmente.
         </p>
         <p className="mt-4 text-sm leading-relaxed text-subtle">
-          ¿No se abrió? Escríbeme directamente a{' '}
+          ¿No se abrió? Escríbeme por{' '}
+          <a href={SITE.whatsapp} target="_blank" rel="noreferrer" className="text-fg underline decoration-line-strong underline-offset-4 hover:text-[#25d366]">
+            WhatsApp
+            <span className="sr-only"> (se abre en una pestaña nueva)</span>
+          </a>{' '}
+          o directamente a{' '}
           <a href={`mailto:${SITE.email}`} className="text-fg underline decoration-line-strong underline-offset-4 hover:text-accent">
             {SITE.email}
           </a>
@@ -117,7 +147,30 @@ export function ContactForm() {
   }
 
   return (
-    <form onSubmit={onSubmit} noValidate className="card space-y-5 p-6 sm:p-8" aria-describedby="form-note">
+    <form ref={formRef} onSubmit={onSubmit} noValidate className="card space-y-5 p-6 sm:p-8" aria-describedby="form-note">
+      {/* Atajo visible desde el principio para quien prefiere WhatsApp. */}
+      <a
+        href={SITE.whatsapp}
+        target="_blank"
+        rel="noreferrer"
+        onClick={onWhatsApp}
+        className="group flex items-center gap-4 rounded-2xl border border-[#25d366]/30 bg-[#25d366]/[0.07] p-4 transition-colors duration-300 hover:border-[#25d366]/60 hover:bg-[#25d366]/[0.12]"
+      >
+        <span className="grid size-11 shrink-0 place-items-center rounded-full bg-[#25d366] text-[#04140b]">
+          <WhatsAppIcon className="size-5" />
+        </span>
+        <span className="min-w-0 flex-1">
+          <span className="block font-medium">¿Prefieres WhatsApp?</span>
+          <span className="block text-sm text-muted">Escríbeme directamente al chat, sin llenar el formulario.</span>
+        </span>
+        <ArrowIcon className="shrink-0 text-[#25d366]" />
+        <span className="sr-only">(se abre en una pestaña nueva)</span>
+      </a>
+
+      <p className="flex items-center gap-3 font-mono text-[0.7rem] tracking-wider text-subtle uppercase" aria-hidden="true">
+        <span className="h-px flex-1 bg-line" /> o por correo <span className="h-px flex-1 bg-line" />
+      </p>
+
       <div className="grid gap-5 sm:grid-cols-2">
         <Field label="Nombre" htmlFor="name">
           <input id="name" name="name" required minLength={2} maxLength={80} autoComplete="name" className={FIELD} placeholder="Tu nombre" />
@@ -186,13 +239,24 @@ export function ContactForm() {
         <input id="website" name="website" tabIndex={-1} autoComplete="off" />
       </div>
 
-      <div className="flex flex-col gap-4 pt-1 sm:flex-row sm:items-center sm:justify-between">
-        <p id="form-note" className="text-xs leading-relaxed text-subtle sm:max-w-[16rem]">
-          Se abrirá tu correo con el mensaje listo. Solo uso tus datos para responderte.
+      <div className="space-y-3 pt-1">
+        <p className="text-sm font-medium text-fg/90">¿Cómo quieres enviarlo?</p>
+        <div className="grid gap-3 sm:grid-cols-2">
+          <Button type="submit" className="w-full">
+            Enviar por correo <ArrowIcon />
+          </Button>
+          <Button href={SITE.whatsapp} target="_blank" rel="noreferrer" variant="whatsapp" className="w-full" onClick={onWhatsApp}>
+            <WhatsAppIcon className="size-5" /> Enviar por WhatsApp
+            <span className="sr-only">(se abre en una pestaña nueva)</span>
+          </Button>
+        </div>
+        <p aria-live="polite" className="min-h-5 text-sm text-[#5fe39a]">
+          {waNote}
         </p>
-        <Button type="submit" magnetic className="w-full sm:w-auto">
-          Enviar por correo <ArrowIcon />
-        </Button>
+        <p id="form-note" className="text-xs leading-relaxed text-subtle">
+          Por correo se abre tu aplicación con el mensaje listo. Por WhatsApp, si ya escribiste tu mensaje, lo
+          copiamos para que lo pegues en el chat. Solo uso tus datos para responderte.
+        </p>
       </div>
     </form>
   )

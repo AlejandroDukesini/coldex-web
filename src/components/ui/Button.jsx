@@ -7,6 +7,7 @@ const BASE =
 const VARIANTS = {
   primary: 'btn-primary',
   secondary: 'btn-secondary',
+  whatsapp: 'btn-whatsapp',
 }
 
 // Botón o enlace con el mismo aspecto. El reflejo (primario) y el borde
