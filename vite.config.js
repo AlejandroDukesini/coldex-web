@@ -8,7 +8,7 @@ function seo(siteUrl) {
   const base = siteUrl.replace(/\/$/, '')
 
   return {
-    name: 'coldex-seo',
+    name: 'mabudev-seo',
     transformIndexHtml(html) {
       const canonical = base ? `<link rel="canonical" href="${base}/" />\n    <meta property="og:url" content="${base}/" />` : ''
       return html.replaceAll('%SITE_URL%', base).replace('<!--seo:canonical-->', canonical)

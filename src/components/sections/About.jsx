@@ -32,7 +32,7 @@ const FACTS = [
   { icon: Award, label: SITE.certification },
 ]
 
-// Capas de un producto que Coldex cubre de punta a punta (texto del párrafo original).
+// Capas de un producto que MabuDev cubre de punta a punta (texto del párrafo original).
 const LAYERS = ['Interfaz', 'API', 'Base de datos', 'Seguridad', 'Rendimiento']
 
 // Titular partido en palabras para encenderlas una a una; `em` marca las destacadas.
@@ -53,14 +53,14 @@ const STATEMENT = [
 
 export function About() {
   return (
-    <section id="sobre-coldex" aria-labelledby="about-title" className="relative py-24 sm:py-32">
+    <section id="sobre-mabudev" aria-labelledby="about-title" className="relative py-24 sm:py-32">
       <div
         aria-hidden="true"
         className="hero-glow pointer-events-none absolute top-0 left-1/2 -z-10 h-[40rem] w-[min(80rem,160vw)] -translate-x-1/2 bg-[radial-gradient(closest-side,rgb(76_116_255/0.1),transparent)]"
       />
 
       <div className="container-page">
-        {/* Qué es Coldex: etiqueta + titular editorial a gran escala. */}
+        {/* Qué es MabuDev: etiqueta + titular editorial a gran escala. */}
         <div className="grid gap-8 lg:grid-cols-12">
           <div data-reveal className="lg:col-span-3">
             <p className="eyebrow inline-flex items-center gap-3">

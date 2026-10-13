@@ -7,7 +7,7 @@ import { isLiteMode } from '../../lib/device'
 const ROTATE_MS = 5000
 const PIPELINE = ['build', 'measure', 'iterate']
 
-// Consola con métricas verificables de los repositorios (sección «Sobre Coldex»). Rota sola hasta que
+// Consola con métricas verificables de los repositorios (sección «Sobre MabuDev»). Rota sola hasta que
 // el usuario elige una pestaña; la rotación la marca la propia barra CSS.
 export function MetricsConsole() {
   const [index, setIndex] = useState(0)

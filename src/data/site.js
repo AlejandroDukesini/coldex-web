@@ -2,7 +2,7 @@
 // github.com/AlejandroDukesini (perfil, bio y README). Edita con libertad.
 
 export const SITE = {
-  brand: 'Coldex',
+  brand: 'MabuDev',
   name: 'Alejandro Duke',
   fullName: 'Alejandro Rodríguez Duque',
   role: 'Desarrollador Full Stack',
@@ -15,7 +15,7 @@ export const SITE = {
   // Enlace de mensaje de WhatsApp Business: abre el chat con el texto que se
   // configuró en la app (este tipo de enlace no admite texto adicional).
   whatsapp: 'https://wa.me/message/PN7EW4767OM6C1',
-  instagram: 'https://www.instagram.com/coldex.co/',
+  instagram: 'https://www.instagram.com/mabudev/',
   tiktok: 'https://www.tiktok.com/@coldex.co',
   facebook: 'https://www.facebook.com/marketplace/profile/100087299022084/',
   // Foto personal: coloca tu imagen en /public/me.webp (cuadrada, ≥ 640 px)
@@ -27,16 +27,16 @@ export const SITE = {
 // clave del icono en components/ui/BrandIcons.jsx.
 export const SOCIAL_LINKS = [
   { id: 'whatsapp', label: 'WhatsApp', handle: 'Coldex', href: SITE.whatsapp },
-  { id: 'instagram', label: 'Instagram', handle: '@coldex.co', href: SITE.instagram },
+  { id: 'instagram', label: 'Instagram', handle: '@mabudev', href: SITE.instagram },
   { id: 'tiktok', label: 'TikTok', handle: '@coldex.co', href: SITE.tiktok },
-  { id: 'facebook', label: 'Facebook', handle: 'Coldex', href: SITE.facebook },
-  { id: 'linkedin', label: 'LinkedIn', handle: 'coldex-co', href: SITE.linkedin },
+  { id: 'facebook', label: 'Facebook', handle: 'MabuDev', href: SITE.facebook },
+  { id: 'linkedin', label: 'LinkedIn', handle: 'mabudev-co', href: SITE.linkedin },
   { id: 'github', label: 'GitHub', handle: 'AlejandroDukesini', href: SITE.github },
 ]
 
 export const NAV_LINKS = [
   { id: 'precios', label: 'Precios' },
-  { id: 'sobre-coldex', label: 'Coldex' },
+  { id: 'sobre-mabudev', label: 'MabuDev' },
   { id: 'servicios', label: 'Servicios' },
   { id: 'proyectos', label: 'Proyectos' },
   { id: 'proceso', label: 'Proceso' },

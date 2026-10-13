@@ -1,5 +1,5 @@
 {
-  "name": "sitio-web-coldex",
+  "name": "sitio-web-mabudev",
   "private": true,
   "version": "1.0.0",
   "type": "module",
@@ -41,7 +41,7 @@
     "tailwindcss": "^4.3.3",
     "vite": "^8.3.0"
   },
-  "description": "Landing de Coldex — Alejandro Duke, desarrollador full stack",
+  "description": "Landing de MabuDev — Alejandro Duke, desarrollador full stack",
   "engines": {
     "node": ">=20.19"
   }
